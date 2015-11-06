@@ -12,6 +12,14 @@
     },
     "userId": {
       "type": "string"
+    },
+    "geoPoint":{
+      "type": "GeoPoint",
+      "required": true
+    },
+    "capture": {
+      "type": "boolean",
+      "required": true
     }
   },
   "validations": [],

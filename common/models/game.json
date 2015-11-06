@@ -6,12 +6,6 @@
     "validateUpsert": true
   },
   "properties": {
-    "tags": {
-      "type": [
-        "string"
-      ],
-      "required": true
-    },
     "teams": {
       "type": [
         "string"

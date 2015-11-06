@@ -2,7 +2,8 @@
   "node": true,
   "esnext": true,
   "bitwise": true,
-  "camelcase": true,
+  "camelcase": false,
+  "loopfunc": false,
   "eqeqeq": true,
   "eqnull": true,
   "immed": true,
@@ -11,11 +12,20 @@
   "newcap": true,
   "nonew": true,
   "noarg": true,
-  "quotmark": "single",
   "regexp": true,
   "undef": true,
   "unused": false,
   "trailing": true,
   "sub": true,
-  "maxlen": 80
+  "maxlen": 200,
+  "globals": {
+    "user": false,
+    "next": false,
+    "describe": false,
+    "it": false,
+    "before": false,
+    "beforeEach": false,
+    "after": false
+
+  }
 }
