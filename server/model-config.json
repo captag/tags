@@ -38,8 +38,8 @@
     "dataSource": "db",
     "public": false
   },
-  "tagGame": {
+  "TagGame": {
     "dataSource": "db",
-    "public": false
+    "public": true
   }
 }

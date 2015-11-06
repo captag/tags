@@ -1,5 +1,5 @@
 {
-  "name": "tagGame",
+  "name": "TagGame",
   "base": "PersistedModel",
   "idInjection": true,
   "options": {

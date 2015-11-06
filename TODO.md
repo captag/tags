@@ -3,5 +3,5 @@ Task:
 
 - create game model [√]
 - join game [√]
-- get tags
+- capture tags [√]
 - get
