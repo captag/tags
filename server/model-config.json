@@ -1,0 +1,45 @@
+{
+  "_meta": {
+    "sources": [
+      "loopback/common/models",
+      "loopback/server/models",
+      "../common/models",
+      "./models"
+    ]
+  },
+  "User": {
+    "dataSource": "db"
+  },
+  "AccessToken": {
+    "dataSource": "db",
+    "public": false
+  },
+  "ACL": {
+    "dataSource": "db",
+    "public": false
+  },
+  "RoleMapping": {
+    "dataSource": "db",
+    "public": false
+  },
+  "Role": {
+    "dataSource": "db",
+    "public": false
+  },
+  "Game": {
+    "dataSource": "db",
+    "public": true
+  },
+  "UserGame": {
+    "dataSource": "db",
+    "public": true
+  },
+  "TeamGame": {
+    "dataSource": "db",
+    "public": false
+  },
+  "tagGame": {
+    "dataSource": "db",
+    "public": false
+  }
+}
