@@ -1,4 +1,4 @@
-FROM node:4.0.0
+FROM node
 WORKDIR /app
 ADD package.json /app/
 RUN npm --unsafe-perm install
