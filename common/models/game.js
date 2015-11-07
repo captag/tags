@@ -48,10 +48,8 @@ module.exports = function(Game) {
       function(cb) {
         query.find().then(
           function(tagsParse) {
-            // console.log(tagsParse);
             for (var i = 0; i < tagsParse.length; ++i) {
               var geoPunt = tagsParse[i].get('geoPoint');
-              console.log(geoPunt);
 
               tags.push({
                 tagId: tagsParse[i].id,
@@ -91,11 +89,11 @@ module.exports = function(Game) {
   Game.remoteMethod(
     'createNew', {
       accepts: {
-        arg: 'gameId',
-        type: 'string'
+        arg: 'teams',
+        type: 'array'
       },
       returns: {
-        arg: 'gameId',
+        arg: 'gameTags',
         type: 'string'
       },
       http: {
