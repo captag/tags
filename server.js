@@ -1,6 +1,6 @@
 var express = require('express');
 var app = express();
-
+var portnode= process.env.PORT || 5000;
 //Cart search logic
 var capture = require('./logic/capture.js');
 
@@ -15,7 +15,7 @@ app.post('/capture', capture.capture);
 // app.get('/healthcheck', healthcheck.healthcheck);
 
 var server;
-server = app.listen(3000, function() {
+server = app.listen(portnode, function() {
 
 
   var host = server.address().address;
