@@ -11,6 +11,9 @@ app.use(bodyParser());
 
 
 app.post('/capture', capture.capture);
+app.get('/healthcheck', function (req, resp) {
+  resp.send({healthcheck: true});
+})
 
 // app.get('/healthcheck', healthcheck.healthcheck);
 

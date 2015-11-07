@@ -7,12 +7,14 @@ var Player = Parse.Object.extend("Player");
 Parse.initialize("VeEodLh11HU4otvwIHpl3slzqN21jYFRefHMQPvp", "ja0EMrZH0mdE8TBRFrIXPCA54SYCF1fCgn04uXgI");
 
 function calculateDomination(tagId, teamId, userId, callback) {
+  console.log('start');
   var query = new Parse.Query(Tag);
   // query.equalTo('id', tagId);
-  query.get(tagId).then(function(result) {
+  query.get(tagId, function(result) {
     // Do something with the returned Parse.Object values
     //
     console.log(result);
+    if (!result) return callback(null, null);
     if (!result.userId) {
       result.set("userId", userId);
       result.set("teamId", teamId);
@@ -31,7 +33,8 @@ function calculateDomination(tagId, teamId, userId, callback) {
     queryNotTeam.withinKilometers("location", tagLocation, 0.05);
     queryNotTeam.notEqualTo("teamId", teamId);
     // var mainQuery = Parse.Query.and(queryPlayerPostion, queryPlayerNotTeam);
-    queryNotTeam.count().then(function(count) {
+    queryNotTeam.count().then(
+      function(count) {
       console.log('pura vide', count);
       if (!count) {
         console.log('no change');
@@ -64,7 +67,9 @@ function calculateDomination(tagId, teamId, userId, callback) {
 }
 
 function capture(req, resp) {
+  console.log(req.body.tagId, req.body.teamId, req.body.userId);
   calculateDomination(req.body.tagId, req.body.teamId, req.body.userId, function(err, data) {
+    console.log(data);
     if (err || !data)
       return resp.status(403).end();
     return resp.send(data);
