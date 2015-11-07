@@ -33,7 +33,7 @@ module.exports = function(TagGame) {
       var tagLocation = Tag.get("location");
       var queryPlayerPostion = new Parse.Query(Player);
       var queryPlayerNotTeam = new Parse.Query(Player);
-      queryPlayerPostion.near("location", tagLocation);
+      queryPlayerPostion.withinKilometers("location", tagLocation,0.05);
       queryPlayerNotTeam.notEqualTo("teamId", teamId);
       var mainQuery = Parse.Query.and(queryPlayerPostion, queryPlayerNotTeam);
       mainQuery.count().then(function(count) {
