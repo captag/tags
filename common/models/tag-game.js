@@ -17,7 +17,9 @@ module.exports = function(TagGame) {
         return callback(null, false);
 
       }
-        return callback(null, true);
+      tag.userId = userId;
+      tag.capture = true;
+      tag.save(callback);
     });
   };
 
@@ -41,7 +43,7 @@ module.exports = function(TagGame) {
       }],
       returns: {
         arg: 'found',
-        type: 'boolean'
+        type: 'object'
       }
     }
   );

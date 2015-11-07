@@ -4,4 +4,5 @@ Task:
 - create game model [√]
 - join game [√]
 - capture tags [√]
-- get
+- generate leaderboard[ ]
+- get tag from parse.com []

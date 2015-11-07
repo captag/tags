@@ -10,7 +10,7 @@
       "type": "string",
       "required": true
     },
-    "Team": {
+    "team": {
       "type": "string",
       "required": true
     },

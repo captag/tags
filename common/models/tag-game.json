@@ -10,11 +10,15 @@
       "type": "string",
       "required": true
     },
+    "gameId":{
+      "type": "string",
+      "required": true
+    },
     "userId": {
       "type": "string"
     },
     "geoPoint":{
-      "type": "GeoPoint",
+      "type": "geopoint",
       "required": true
     },
     "capture": {
