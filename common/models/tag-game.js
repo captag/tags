@@ -5,7 +5,7 @@ module.exports = function(TagGame) {
 
     var query = {
       where: {
-        id: tagId,
+        tagId: tagId,
         gameId: gameId,
         capture: false
       }

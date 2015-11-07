@@ -1,6 +1,9 @@
 {
   "db": {
-    "name": "db",
-    "connector": "memory"
+    "name": "mongodb_dev",
+    "connector": "mongodb",
+    "host": "boot2docker.me",
+    "database": "captag",
+    "port": 27017
   }
 }
