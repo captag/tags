@@ -6,6 +6,26 @@ var Player = Parse.Object.extend("Player");
 
 Parse.initialize("VeEodLh11HU4otvwIHpl3slzqN21jYFRefHMQPvp", "ja0EMrZH0mdE8TBRFrIXPCA54SYCF1fCgn04uXgI");
 
+
+function checkWinner(gameId, callback) {
+  var query = new Parse.Quary(Tag);
+  query.find({
+    success: function(tags) {
+      var teamsScore = _.groupBy(tags, 'teamId');
+      for (var key in teamsScore) {
+        if (teamsScore[key].length > tags.length / 2) {
+
+          return callback(null, teamsScore[key]);
+        }
+      }
+      callback(null, null, null);
+    },
+    error: function(err) {
+      callback(err, null, null);
+    }
+  });
+}
+
 function calculateDomination(tagId, teamId, userId, callback) {
   console.log('start');
   var query = new Parse.Query(Tag);
@@ -29,40 +49,36 @@ function calculateDomination(tagId, teamId, userId, callback) {
     var tagLocation = result.location;
     var queryNotTeam = new Parse.Query(Player);
 
-    // var queryPlayerNotTeam = new Parse.Query(Player);
+
     queryNotTeam.withinKilometers("location", tagLocation, 0.05);
     queryNotTeam.notEqualTo("teamId", teamId);
-    // var mainQuery = Parse.Query.and(queryPlayerPostion, queryPlayerNotTeam);
+
     queryNotTeam.count().then(
       function(count) {
-      console.log('pura vide', count);
-      if (!count) {
-        console.log('no change');
-        return callback(null, 'no change');
-      }
-
-      // var queryPlayerTeam = new Parse.Query(Player);
-      // queryPlayerTeam.equalTo("teamId", teamId);
-      // queryPlayerTeam.withinKilometers("location", tagLocation, 0.05);
-
-      var queryTeamMembers = new Parse.Query(Player);
-      queryTeamMembers.withinKilometers("location", tagLocation, 0.05);
-      queryTeamMembers.equalTo("teamId", teamId);
-
-      queryTeamMembers.count({
-        success: function(countTeam) {
-          if (count === countTeam) {
-            result.set("userId", null);
-            result.set("teamId", null);
-          }
-          if (count < countTeam) {
-            result.set("userId", userId);
-            result.set("teamId", teamId);
-          }
-          return result.save(callback);
+        console.log('pura vide', count);
+        if (!count) {
+          console.log('no change');
+          return callback(null, 'no change');
         }
+
+        var queryTeamMembers = new Parse.Query(Player);
+        queryTeamMembers.withinKilometers("location", tagLocation, 0.05);
+        queryTeamMembers.equalTo("teamId", teamId);
+
+        queryTeamMembers.count({
+          success: function(countTeam) {
+            if (count === countTeam) {
+              result.set("userId", null);
+              result.set("teamId", null);
+            }
+            if (count < countTeam) {
+              result.set("userId", userId);
+              result.set("teamId", teamId);
+            }
+            return result.save(callback);
+          }
+        });
       });
-    });
   });
 }
 
@@ -72,7 +88,13 @@ function capture(req, resp) {
     console.log(data);
     if (err || !data)
       return resp.status(403).end();
-    return resp.send(data);
+    checkWinner(req.body.gameId, function(err, winnerTeam) {
+      if (winnerTeam) return resp.send({
+        winner: winnerTeam
+      });
+      return resp.send(data);
+    });
+
   });
 }
 module.exports = {
