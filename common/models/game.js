@@ -37,67 +37,39 @@ module.exports = function(Game) {
 
 
   function mapGeoPoint(geoPoint) {
-    return [geoPoint._latitude,geoPoint._longitude];
+    return [geoPoint._latitude, geoPoint._longitude];
   }
 
-  Game.createNew = function(teams, callback) {
-    // Get ramdom Tags
-    var query = new Parse.Query(Parse.Object.extend("Tag"));
-    var tags = [];
-    async.waterfall([
-      function(cb) {
-        query.find().then(
-          function(tagsParse) {
-            for (var i = 0; i < tagsParse.length; ++i) {
-              var geoPunt = tagsParse[i].get('geoPoint');
-
-              tags.push({
-                tagId: tagsParse[i].id,
-                name: tagsParse[i].get('label'),
-                geoPoint: mapGeoPoint(geoPunt),
-                capture: false
-              });
-            }
-            cb(null, tags);
-          }
-        );
-      },
-      function(tags, cb) {
-        var newGame = {
-          teams: teams
-        };
-        Game.create({
-          teams: teams
-        }, function(err, game) {
-          var asingTags = tags.map(function(tag) {
-            tag.gameId = game.id;
-            return tag;
-          });
-          async.map(asingTags, function(tag, cb) {
-            app.models.TagGame.create(tag, cb);
-          }, callback);
-        });
+  Game.start = function(gameId, callback) {
+    var query = new Parse.Query(Parse.Installation);
+    query.equalTo('injuryReports', true);
+    Parse.Push.send({
+      where: query, // Set our Installation query
+      data: {
+        alert: "the game it will start in 5 min"
       }
-    ], callback);
-
-
-    // Create the game
-
-
+    }, {
+      success: function() {
+        console.log('push notification sent');
+      },
+      error: function(error) {
+        console.log('error had happended');
+      }
+    });
   };
 
   Game.remoteMethod(
-    'createNew', {
+    'start', {
       accepts: {
-        arg: 'teams',
-        type: 'array'
+        arg: 'gameId',
+        type: 'string'
       },
       returns: {
         arg: 'gameTags',
         type: 'string'
       },
       http: {
-        path: '/createNew',
+        path: '/start',
         verb: 'post'
       }
     }
