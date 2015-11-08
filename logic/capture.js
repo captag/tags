@@ -15,6 +15,7 @@ function saveTagPerUser(tags) {
     relation.first({
       success: function (user) {
         user.set('totalTags', tags.length);
+        user.save();
       }
     });
   });
